@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listar Cursos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+<header th:include="~{../static/html/header.html}"></header>
+<section class="container col-12">
+  <table class="Table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre de Curso</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="curso: ${atributoListaCursos}">
+      <td th:text="${curso.id}"></td>
+      <td th:text="${curso.nombreCurso}"></td>
+      <td>
+        <div class="row m-1 ">
+          <div class="col-6">
+            <form th:action="@{/curso/editar/{id}(id=${curso.id})}"
+                  method="get">
+              <button class="btn btn-warning" type="submit">Editar</button>
+            </form>
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" th:id="'exampleModal'+${curso.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Curso</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Estas seguro?
+                </div>
+                <div class="modal-footer">
+                  <form th:action="@{/curso/eliminar/{id}(id=${curso.id})}"
+                        method="post">
+                    <button class="btn btn-danger" type="submit">Eliminar</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <!-- Boton del modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#exampleModal'+${curso.id}">
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+</body>
+</html>
